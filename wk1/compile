@@ -1,0 +1,5 @@
+#!/bin/bash
+
+javac -cp "lib/gluegen-rt.jar:lib/jogl-all.jar:src" $1
+
+ant -f runnable.xml -Dmain-class=$2

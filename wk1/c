@@ -1,3 +1,7 @@
 #!/bin/bash
 
+<<<<<<< HEAD
 ./compile src/unsw/graphics/examples/PolygonDrawing.java unsw.graphics.examples.PolygonDrawing
+=======
+./compile src/unsw/graphics/examples/LineDrawing.java unsw.graphics.examples.LineDrawing
+>>>>>>> 978bd1f2e35da6270da059e60ba68bab0cc91dcf

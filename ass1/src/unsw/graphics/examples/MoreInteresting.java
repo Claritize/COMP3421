@@ -32,7 +32,7 @@ public class MoreInteresting extends Application2D {
     @Override
     public void display(GL3 gl) {
         super.display(gl);
-
+        
         Point2D right, top, left, bottom;
         right  = new Point2D(0.5f, 0);
         top    = new Point2D(0, 0.5f);

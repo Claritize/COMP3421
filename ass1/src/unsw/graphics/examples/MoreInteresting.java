@@ -68,7 +68,7 @@ public class MoreInteresting extends Application2D {
         
         Line2D mouth = new Line2D(new Point2D(-0.5f, 0), new Point2D(-0.4f, 0));
         mouth.draw(gl);
-        
+
     }
 
 }

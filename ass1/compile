@@ -1,3 +1,3 @@
 #!/bin/bash
 
-javac -cp "lib/gluegen-rt.jar:lib/jogl-all.jar:src" unsw.graphics.examples.PolygonDrawing
+javac -cp "lib/gluegen-rt.jar:lib/jogl-all.jar:src" src/unsw/graphics/scene/tests/SceneObjectTest.java

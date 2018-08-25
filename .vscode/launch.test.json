@@ -1,0 +1,48 @@
+{
+    "run": {
+        "default": "",
+        "items": [
+            {
+                "name": "UNSWgraph",
+                "projectName": "UNSWgraph",
+                "workingDirectory": "c:\\Users\\annaz\\VSCode\\COMP3421\\ass1",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            },
+            {
+                "name": "UNSWgraph (2)",
+                "projectName": "UNSWgraph (2)",
+                "workingDirectory": "c:\\Users\\annaz\\VSCode\\COMP3421\\wk1",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    },
+    "debug": {
+        "default": "",
+        "items": [
+            {
+                "name": "UNSWgraph",
+                "projectName": "UNSWgraph",
+                "workingDirectory": "c:\\Users\\annaz\\VSCode\\COMP3421\\ass1",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            },
+            {
+                "name": "UNSWgraph (2)",
+                "projectName": "UNSWgraph (2)",
+                "workingDirectory": "c:\\Users\\annaz\\VSCode\\COMP3421\\wk1",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    }
+}

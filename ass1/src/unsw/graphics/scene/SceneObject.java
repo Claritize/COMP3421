@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.jogamp.opengl.GL3;
 
-import unsw.graphics.CoordFrame2D;
+import unsw.graphics.*;
 import unsw.graphics.geometry.Point2D;
 
 /**
@@ -272,6 +272,19 @@ public class SceneObject {
         // draw the object (Call drawSelf() to draw the object itself) 
         // and all its children recursively
        
+        //Calculate the frame transformation
+        CoordFrame2D transform = frame.translate(myTranslation)
+                                    .rotate(myRotation)
+                                    .scale(myScale, myScale);
+        
+        //Calling the drawSelf function
+        drawSelf(gl, transform);
+
+        //Going through all the child objects and calling draw on them
+        //with this object's frame's context
+        for (SceneObject o : myChildren) {
+            o.draw(gl, transform);
+        }
         
     }
 
@@ -281,8 +294,25 @@ public class SceneObject {
      * @return a point in world coordinats
      */
     public Point2D getGlobalPosition() {
-        // TODO: Complete this
-        return null;
+
+        //Create an ArrayList of object heirarchy from this.myParent->root
+        ArrayList<SceneObject> heirarchy = new ArrayList<>();
+        SceneObject current = this.myParent;
+        while (current != null) {
+            heirarchy.add(0, current); //Add to beginning of list
+            current = current.myParent;
+        }
+
+        //Iterate through objects and apply transformations
+        CoordFrame2D frame = CoordFrame2D.identity(); //The frame we are applying transformations on
+        for (SceneObject o : heirarchy) {
+            frame = frame.translate(o.myTranslation)
+                        .rotate(o.myRotation)
+                        .scale(o.myScale, o.myScale);
+        }
+
+        //Multiply the frame with the translation to get point
+        return frame.getMatrix().multiply(myTranslation.asHomogenous()).asPoint2D();
     }
 
     /**
@@ -292,8 +322,22 @@ public class SceneObject {
      * normalized to the range (-180, 180) degrees. 
      */
     public float getGlobalRotation() {
-        // TODO: Complete this
-        return 0;
+        
+        //Create an ArrayList of object heirarchy from this.myParent->root
+        ArrayList<SceneObject> heirarchy = new ArrayList<>();
+        SceneObject current = this;
+        while (current != null) {
+            heirarchy.add(0, current); //Add to beginning of list
+            current = current.myParent;
+        }
+
+        //Adding all rotations together
+        float returnRotation = 0F;
+        for (SceneObject o : heirarchy) {
+            returnRotation += o.myRotation;
+        }
+
+        return MathUtil.normaliseAngle(returnRotation);
     }
 
     /**
@@ -302,8 +346,21 @@ public class SceneObject {
      * @return the global scale of the object 
      */
     public float getGlobalScale() {
-        // TODO: Complete this
-        return 1;
+
+        //Create an ArrayList of object heirarchy from this.myParent->root
+        ArrayList<SceneObject> heirarchy = new ArrayList<>();
+        SceneObject current = this;
+        while (current != null) {
+            heirarchy.add(0, current); //Add to beginning of list
+            current = current.myParent;
+        }
+
+        float returnScale = 1;
+        for (SceneObject o : heirarchy) {
+            returnScale *= o.myScale;
+        }
+
+        return returnScale;
     }
 
     /**
@@ -316,10 +373,53 @@ public class SceneObject {
         // when it is reparented. You may need to add code before and/or after 
         // the fragment of code that has been provided - depending on your approach
         
+        //Getting the global attributes of this object
+        Point2D globalTranslation = getGlobalPosition();
+        float globalRotation = getGlobalRotation();
+        float globalScale = getGlobalScale();
+
         myParent.myChildren.remove(this);
         myParent = parent;
         myParent.myChildren.add(this);
         
+        //Create an ArrayList of object heirarchy from this.myParent->root
+        ArrayList<SceneObject> heirarchy = new ArrayList<>();
+        SceneObject current = this.myParent;
+        while (current != null) {
+            heirarchy.add(current); //Add to beginning of list
+            current = current.myParent;
+        }
+
+        //Iterate through objects and apply transformations
+        CoordFrame2D frame = CoordFrame2D.identity(); //The frame we are applying transformations on
+        for (SceneObject o : heirarchy) {
+            frame = frame.scale(1/o.myScale, 1/o.myScale)
+                        .rotate(o.myRotation*-1)
+                        .translate(new Point2D(o.myTranslation.getX()*-1,
+                                            o.myTranslation.getY()*-1));
+        }
+
+        //Setting the local translation
+        myTranslation = frame.getMatrix().multiply(new Vector3(globalTranslation.getX(), 
+                                                globalTranslation.getY(), 
+                                                1)).asPoint2D();
+                                        
+
+        //Subtracting from globalRotation all rotations in the heirarchy
+        for (SceneObject o : heirarchy) {
+            globalRotation -= o.myRotation;
+        }
+
+        //Setting the local rotation
+        myRotation =  MathUtil.normaliseAngle(globalRotation);
+
+        //Dividing the globalScale by all scales in the heirarchy
+        for (SceneObject o : heirarchy) {
+            globalScale /= o.myScale;
+        }
+
+        //Setting the local scale
+        myScale = globalScale;
     }
     
 

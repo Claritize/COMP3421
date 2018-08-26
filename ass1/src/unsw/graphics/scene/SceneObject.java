@@ -78,7 +78,7 @@ public class SceneObject {
             child.destroy();
         }
         if(myParent != null)
-                myParent.myChildren.remove(this);
+            myParent.myChildren.remove(this);
     }
 
     /**

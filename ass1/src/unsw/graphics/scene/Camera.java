@@ -2,8 +2,10 @@ package unsw.graphics.scene;
 
 import com.jogamp.opengl.GL3;
 
+import unsw.graphics.CoordFrame2D;
 import unsw.graphics.Matrix3;
 import unsw.graphics.Vector3;
+import unsw.graphics.Shader;
 import unsw.graphics.geometry.Point2D;
 
 /**
@@ -28,11 +30,30 @@ public class Camera extends SceneObject {
 
     public void setView(GL3 gl) {
         // TODO compute a view transform to account for the cameras aspect ratio
+        //Shader.setModelMatrix(gl, CoordFrame2D.identity().scale(myAspectRatio, 1).getMatrix());
+
+        /*
+        if (myAspectRatio > 1) {
+            viewTransform = CoordFrame2D.identity().scale(myAspectRatio, 1);
+        } else if (myAspectRatio < 1) {
+            viewTransform = CoordFrame2D.identity().scale(x, y)
+        }
+        */
         
         // TODO apply further transformations to account for the camera's global position, 
         // rotation and scale
+        //CoordFrame2D transform = CoordFrame2D.identity().translate(getGlobalPosition())
+                                    //.rotate(getGlobalRotation())
+                                    //.scale(myAspectRatio*getGlobalScale(), getGlobalScale());
         
         // TODO set the view matrix to the computed transform
+        //Shader.setViewMatrix(gl, transform.getMatrix());
+        CoordFrame2D viewFrame = CoordFrame2D.identity()
+                .scale(1/getGlobalScale(), 1/getGlobalScale())
+                .rotate(-getGlobalRotation())
+                .translate(-getGlobalPosition().getX(), -getGlobalPosition().getY())
+                .scale(1, myAspectRatio);
+        Shader.setViewMatrix(gl, viewFrame.getMatrix());
     }
 
     public void reshape(int width, int height) {

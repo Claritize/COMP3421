@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ant -f runnable.xml -Dmain-class=unsw.graphics.scene.SceneObjectTest
+ant -f runnable.xml -Dmain-class=unsw.graphics.scene.tests.TestShapes

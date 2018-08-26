@@ -8,7 +8,7 @@ import com.jogamp.opengl.GL3;
 import unsw.graphics.Application2D;
 import unsw.graphics.geometry.Polygon2D;
 import unsw.graphics.scene.Camera;
-import unsw.graphics.scene.PolygonalSceneObject;
+import unsw.graphics.scene.*;
 import unsw.graphics.scene.Scene;
 
 /**
@@ -22,7 +22,7 @@ public class TestShapes extends Application2D {
     private Scene scene;
     
 	public TestShapes() {
-        super("Test shapes", 400, 400);
+        super("Test shapes", 800, 400);
         setBackground(Color.BLACK);
         // Create a scene
         scene = new Scene();
@@ -30,7 +30,7 @@ public class TestShapes extends Application2D {
         // Create a camera
         Camera camera = new Camera(scene.getRoot());
         scene.setCamera(camera);
-        camera.setScale(2); // scale up the camera so we can see more of the world  
+        camera.setScale(4); // scale up the camera so we can see more of the world  
               
         addTestShapes(scene);
     }
@@ -41,7 +41,7 @@ public class TestShapes extends Application2D {
         PolygonalSceneObject p = new PolygonalSceneObject(scene.getRoot(), poly, null, Color.WHITE);
         p.rotate(45);
        
-        /*
+        
         // Create a circle 
         Color cFillCol = new Color(1,0.5f,0.5f);
         CircularSceneObject c = new CircularSceneObject(scene.getRoot(), cFillCol, Color.WHITE);
@@ -62,7 +62,7 @@ public class TestShapes extends Application2D {
         //Create a circle that is a child of polygon p       
         CircularSceneObject c2 = new CircularSceneObject(p, 0.25f, Color.WHITE, Color.WHITE);     
         c2.translate(-1,0);
-        */      
+        
 	}
    
     /**
